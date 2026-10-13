@@ -1,0 +1,174 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="tool-bar" color="translucent">
+    <ion-item lines="none" class="bg-transparent">
+      <ion-label class="header-title">HALA MUSLIM SAMAJ SIDOKAR </ion-label>
+      <ion-icon
+        (click)="loginValidation('admin')"
+        slot="end"
+        name="chevron-forward-outline"
+        color="primary"
+      ></ion-icon>
+    </ion-item>
+
+    <ion-item lines="none" class="bg-transparent">
+      <h1
+        slot="start"
+        style="color: var(--ion-color-primary-custom); font-size: xxx-large"
+      >
+        {{details?.data?.date?.hijri?.month?.number }}
+      </h1>
+      <ion-label class="local-lbl" slot="start">
+        {{details?.data?.date?.hijri?.month?.en }}
+        <p>{{details?.data?.date?.hijri?.date }}</p>
+        <span
+          *ngFor="let hld of details?.data?.date?.hijri?.holidays"
+          style="text-wrap: auto"
+          >Holidays: {{hld}}</span
+        >
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" class="bg-transparent">
+      <ion-label class="nxt-time" slot="start">
+        {{this.currentStamp[0]}}
+        <p style="color: #000; font-weight: 600">
+          {{tConvert(this.currentStamp[1])}}
+        </p>
+      </ion-label>
+
+      <ion-icon
+        slot="end"
+        color="primary"
+        name="accessibility-outline"
+        (click)="studentCorner()"
+      ></ion-icon>
+    </ion-item>
+
+    <swiper-container
+      #swiper
+      effect="coverflow"
+      [speed]="10"
+      [autoplay]="{ delay: 1000, disableOnInteraction: false }"
+      [modules]="swiperModules"
+      pagination="true"
+      scrollbar="false"
+      [slidesPerView]="1"
+      [loop]="true"
+    >
+      <swiper-slide *ngFor="let sd of marriegeList; let i=index;">
+        <ion-card class="bg-transparent card-sdw-n">
+          <ion-item lines="none" class="bg-transparent wdth-100">
+            <ion-label
+              class="local-lbl ion-no-margin ion-no-padding"
+              slot="start"
+              >{{sd?.title}}
+              <p>{{sd?.location}}</p>
+            </ion-label>
+
+            <ion-label class="local-lbl ion-no-margin ion-no-padding" slot="end"
+              >Note: {{sd?.message}}
+              <p>Date: {{sd?.startDate | date}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-transparent">
+  <ion-list class="bg-transparent lst">
+    <ion-item
+      lines="none"
+      *ngFor="let time of detailsList"
+      class="lst-item {{time[1] == this.currentStamp[1]?'current-time':'none'}}"
+    >
+      <ion-label class="item-lbl" slot="start">{{time[0]}}</ion-label>
+      <ion-label class="item-lbl" slot="end">{{tConvert(time[1])}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar class="tool-bar" color="translucent">
+    <ion-card class="dash-header ion-margin-end">
+      <ion-card-content class="ion-no-padding ion-padding-vertical">
+        <ion-item lines="none" class="bg-transparent">
+          <ion-label class="header-title" (click)="adhanAlarm()">HALA MUSLIM SAMAJ SIDOKAR
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none" class="bg-transparent">
+          <ion-label class="nxt-time"> {{this.currentStamp[0]}}
+            <p (click)="loginValidation('admin')" style="color:#fff; font-weight: 600;">{{tConvert(this.currentStamp[1])}}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none" class="bg-transparent">
+          <h1 slot="start" style="color:#fff; font-size: xxx-large; margin-right: 15px;">{{details?.data?.date?.hijri?.month?.number }}</h1>
+          <ion-label class="local-lbl" slot="start">
+            {{details?.data?.date?.hijri?.month?.en }}
+            <p>{{details?.data?.date?.hijri?.date }}</p>
+            <span *ngFor="let hld of details?.data?.date?.hijri?.holidays">Holidays: {{hld}}</span>
+          </ion-label>
+          
+        </ion-item>
+      </ion-card-content>
+
+
+    </ion-card>
+  </ion-toolbar>
+
+  <ion-toolbar color="translucent">
+    <ion-item lines="none" class="bg-transparent">
+      <ion-button fill="clear" class="ion-no-margin ion-no-padding tool-btn">
+        Qibla
+        <ion-icon slot="icon-only" name="navigate-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" class="ion-no-margin ion-no-padding tool-btn" (click)="loginValidation('public')">
+        Login
+        <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item lines="none" class="bg-transparent lst-item">
+      <ion-label class="item-lbl" slot="start">Namaz</ion-label>
+      <ion-label class="item-lbl" slot="end">Time</ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-transparent">
+  <ion-list class="bg-transparent">
+    <ion-item lines="none" *ngFor="let time of detailsList"
+      class="lst-item {{time[1] == this.currentStamp[1]?'current-time':'none'}}">
+      <ion-label class="item-lbl" slot="start">{{time[0]}}</ion-label>
+      <ion-label class="item-lbl" slot="end">{{tConvert(time[1])}}</ion-label>
+
+    </ion-item>
+  </ion-list>
+
+
+ 
+</ion-content>
+
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <swiper-container #swiper effect="coverflow"  [speed]="100" [autoplay]="true" [modules]="swiperModules" pagination="true" scrollbar="false" [slidesPerView]="1" [loop]="true">
+      <swiper-slide *ngFor="let sd of marriegeList; let i=index;">
+        <ion-card class="bg-transparent card-sdw-n">
+          <ion-item lines="none" class="bg-transparent wdth-100">
+            <ion-label class="local-lbl ion-no-margin ion-no-padding" slot="start">{{sd?.title}}
+              <p>{{sd?.location}}</p>
+            </ion-label>
+
+            <ion-label class="local-lbl ion-no-margin ion-no-padding" slot="end">Note: {{sd?.message}}
+              <p>Date: {{sd?.startDate | date}}</p>
+            </ion-label>
+          </ion-item>
+         
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </ion-toolbar>
+</ion-footer> -->

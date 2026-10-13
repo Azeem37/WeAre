@@ -1,0 +1,77 @@
+<ion-item-group>
+  <ion-item-divider>
+    <ion-label class="local-lbl ion-no-margin" slot="start"
+      >{{ record?.name }}
+      <!-- <p>&#8377; {{getWallet(record) | number: '2.0-1'}}</p> -->
+    </ion-label>
+
+    <!-- <ion-icon slot="end" name="document-outline" (click)="generatPDF(record)"></ion-icon> -->
+    <ion-icon
+      slot="end"
+      name="wallet-outline"
+      (click)="feesAlert('fees')"
+    ></ion-icon>
+    <ion-icon
+      slot="end"
+      name="people-outline"
+      (click)="feesAlert('child')"
+    ></ion-icon>
+  </ion-item-divider>
+
+  <ion-grid>
+    <!-- <ion-row>
+      <ion-col class="sc-col">
+        <ion-list>
+          <ion-label>Fees</ion-label>
+        <ion-item lines="none" *ngFor="let col of record?.collection" class="ion-no-padding">
+          <ion-label slot="start" class="ion-no-margin ion-no-padding">{{col.type}}
+            <p>{{col.created | date: 'dd MMM yyyy'}}</p>
+          </ion-label>
+      
+          <ion-label slot="end" class="ion-no-margin ion-no-padding">&#8377; {{col.Fees}}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      </ion-col>
+
+      <ion-col class="sc-col">
+        <ion-list>
+          <ion-label>Child</ion-label>
+        <ion-item lines="none" *ngFor="let ch of record?.child" class="ion-no-padding">
+          <ion-label slot="end" class="ion-no-margin">{{ch}}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      </ion-col>
+      
+    </ion-row> -->
+
+    <ion-row *ngIf="record?.collection?.length > 0">
+      <ion-col>
+        <ion-card>
+          <ion-card-header> Fees Chart </ion-card-header>
+          <ion-card-content>
+            <canvas #barCanvas></canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <app-common *ngIf="record?.collection?.length <= 0"></app-common>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="sc-col">
+        <ion-list *ngIf="record?.child?.length > 0">
+          <ion-label>Child</ion-label>
+          <ion-item
+            lines="none"
+            *ngFor="let ch of record?.child"
+            class="ion-no-padding"
+          >
+            <ion-label slot="start" class="ion-no-margin">{{ ch }} </ion-label>
+          </ion-item>
+          <app-common *ngIf="record?.child?.length <= 0"></app-common>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item-group>

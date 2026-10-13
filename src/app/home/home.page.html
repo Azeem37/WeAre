@@ -1,0 +1,352 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="translucent tool-bar">
+    <img
+      src="assets/icon/logo.png"
+      alt=""
+      class="logo"
+      (click)="route.navigateByUrl('/dashboard')"
+    />
+
+    <ion-segment
+      [value]="actionTyVal"
+      class="bg-transparent"
+      scrollable
+      (ionChange)="selectSegment($event)"
+    >
+      <!-- (ionChange)="selectSegment($event)" -->
+      <ion-segment-button (click)="addEvent()">
+        <ion-label>Date</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="data">
+        <ion-label>Data</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="entry">
+        <ion-label>Entry</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="accademic">
+        <ion-label>Accademic</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="students">
+        <ion-label>Students</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content content-rds bg-transparent">
+  <!-- Admin User -->
+  <div *ngIf="actionTyVal==='data'">
+    <ion-list class="bg-transparent ion-margin-top">
+      <ion-item lines="none" class="lst-item" *ngFor="let per of publicList">
+        <ion-label class="local-lbl ion-no-margin" slot="start"
+          ><b>{{per.first_name}}</b> {{per.last_name}}
+          <p>{{per.adhar}}</p>
+        </ion-label>
+        <ion-icon
+          slot="end"
+          color="dark"
+          name="create-outline"
+          (click)="updateModal(per)"
+        ></ion-icon>
+      </ion-item>
+    </ion-list>
+    <app-common *ngIf="publicList?.length<=0"></app-common>
+  </div>
+
+  <!-- Admin User -->
+  <div *ngIf="actionTyVal==='entry'" class="bg-transparent">
+    <ion-card class="admin-card box-shd bg-transparent">
+      <ion-card-header class="ion-no-padding"> </ion-card-header>
+
+      <ion-card-content class="ion-no-padding bg-transparent">
+        <!-- <app-common></app-common> -->
+        <form [formGroup]="entryForm">
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="Surname:"
+            label-placement="floating"
+            formControlName="surname"
+            class="ion-margin-bottom ion-margin-top"
+          ></ion-input>
+
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="First Name:"
+            label-placement="floating"
+            formControlName="first_name"
+            class="ion-margin-bottom ion-margin-top"
+          ></ion-input>
+
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="Last Name:"
+            label-placement="floating"
+            formControlName="last_name"
+            class="ion-margin-bottom ion-margin-top"
+          ></ion-input>
+
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="Adhar:"
+            label-placement="floating"
+            formControlName="adhar"
+            class="ion-margin-bottom"
+            type="number"
+          ></ion-input>
+
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="At:"
+            label-placement="floating"
+            formControlName="at"
+            class="ion-margin-bottom"
+          ></ion-input>
+          <!-- <ion-input fill="outline" shape="block" label="Child:" label-placement="floating" formControlName="child" class="ion-margin-bottom"></ion-input> -->
+        </form>
+
+        <ion-button
+          color="primary"
+          class="ion-padding"
+          expand="block"
+          (click)="checking()"
+          [disabled]="!entryForm.valid || !entryForm.dirty"
+          >Add</ion-button
+        >
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Admin User -->
+  <div *ngIf="actionTyVal==='accademic'">
+    <ion-card class="admin-card box-shd bg-transparent">
+      <ion-card-content class="ion-no-padding">
+        <form [formGroup]="accademicForm">
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="Type:"
+            label-placement="floating"
+            formControlName="type"
+            class="ion-margin-bottom ion-margin-top"
+          ></ion-input>
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="Class:"
+            label-placement="floating"
+            formControlName="class"
+            class="ion-margin-bottom"
+          ></ion-input>
+
+          <!-- <ion-item lines="none" class="background-trans">
+            <ion-label class="local-lbl in-lbl" position="stacked">Type</ion-label>
+            <ion-input class="ion-no-padding custom-input" placeholder="Final exam" formControlName="type"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="background-trans">
+            <ion-label class="local-lbl in-lbl" position="stacked">Class</ion-label>
+            <ion-input class="ion-no-padding custom-input" placeholder="XII" formControlName="class"></ion-input>
+          </ion-item> -->
+
+          <ion-item lines="none" class="background-trans ion-no-padding">
+            <ion-input
+              slot="start"
+              class="in-sub ion-no-margin ion-margin-bottom"
+              placeholder="subject"
+              [(ngModel)]="combine.subject"
+              [ngModelOptions]="{standalone: true}"
+            ></ion-input>
+
+            <ion-input
+              slot="start"
+              type="number"
+              class="in-mark ion-no-margin ion-margin-bottom"
+              placeholder="Marks"
+              [(ngModel)]="combine.mark"
+              [ngModelOptions]="{standalone: true}"
+            ></ion-input>
+
+            <ion-input
+              slot="end"
+              class="in-date ion-no-margin ion-margin-bottom"
+              placeholder="01/12/2023"
+              [(ngModel)]="combine.date"
+              [ngModelOptions]="{standalone: true}"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item
+            *ngIf="accademicForm?.get('subjects')?.value.length>0"
+            lines="none"
+            class="background-trans"
+          >
+            <ion-label
+              slot="start"
+              class="local-lbl ion-no-margin ion-no-padding"
+              >Subject</ion-label
+            >
+            <ion-label
+              slot="start"
+              class="local-lbl ion-no-margin ion-no-padding"
+              >Mark</ion-label
+            >
+            <ion-label
+              slot="start"
+              class="local-lbl ion-no-margin ion-no-padding"
+              >Date</ion-label
+            >
+            <ion-label slot="end" class="local-lbl ion-no-margin ion-no-padding"
+              >remove</ion-label
+            >
+          </ion-item>
+
+          <div
+            *ngFor="let skill of accademicForm.get('subjects')?.value; let i=index"
+          >
+            <ion-item
+              lines="none"
+              class="background-trans"
+              *ngIf="accademicForm?.get('subjects')?.value.length>0"
+            >
+              <ion-label
+                slot="start"
+                class="local-lbl ion-no-margin ion-no-padding"
+                >{{skill.subject}}</ion-label
+              >
+              <ion-label
+                slot="start"
+                class="local-lbl ion-no-margin ion-no-padding"
+                >{{skill.mark}}</ion-label
+              >
+              <ion-label
+                slot="start"
+                class="local-lbl ion-no-margin ion-no-padding"
+                >{{skill.date}}</ion-label
+              >
+
+              <ion-button
+                *ngIf="accademicForm?.get('subjects')?.value.length>0"
+                slot="end"
+                (click)="removeSubject(i)"
+                color="danger"
+                class="ion-no-margin ion-no-padding"
+              >
+                <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+              </ion-button>
+            </ion-item>
+
+            <app-common
+              *ngIf="accademicForm.get('subjects')?.value?.length<=0"
+            ></app-common>
+          </div>
+
+          <!-- <ion-item lines="none" class="background-trans">
+            <ion-label class="local-lbl in-lbl" position="stacked">Note</ion-label>
+            <ion-textarea class="ion-no-padding custom-input" placeholder="Type something here"
+              formControlName="note"></ion-textarea>
+          </ion-item> -->
+
+          <ion-input
+            fill="outline"
+            shape="block"
+            label="Nmae:"
+            label-placement="floating"
+            formControlName="note"
+            class="ion-margin-bottom"
+          ></ion-input>
+
+          <ion-item lines="none" class="background-trans">
+            <ion-button slot="start" fill="clear" (click)="addSubject()">
+              <ion-icon
+                slot="icon-only"
+                color="primary"
+                name="add-outline"
+              ></ion-icon>
+              Add subject
+            </ion-button>
+
+            <ion-button slot="end" fill="clear" (click)="submitSchedule()">
+              <ion-icon
+                slot="icon-only"
+                color="primary"
+                name="checkmark-outline"
+              ></ion-icon>
+              submit exam
+            </ion-button>
+          </ion-item>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Admin User -->
+  <div *ngIf="actionTyVal==='students'">
+    <ion-list
+      class="bg-transparent"
+      *ngIf="studentsList && studentsList.length > 0"
+    >
+      <ion-item lines="none" class="lst-item" *ngFor="let std of studentsList">
+        <ion-badge
+          slot="start"
+          color="primary"
+          *ngIf="std?.exams && std!.exams!.length !== this.examsList?.length"
+          class="badge-icon"
+          >{{(examsList!.length - std!.exams!.length)}}</ion-badge
+        >
+        <ion-label class="local-lbl ion-no-margin" slot="start">
+          <b>{{std.first_name}}</b> {{std.last_name}}
+        </ion-label>
+
+        <ion-checkbox
+          *ngIf="std?.exams && syncAvailExam(std)"
+          slot="end"
+          color="primary"
+          [checked]="syncAvailExam(std)"
+          mode="ios"
+          readonly="true"
+        ></ion-checkbox>
+
+        <ion-button
+          slot="end"
+          fill="clear"
+          *ngIf="examsList.length>0 && !syncAvailExam(std)"
+          (click)="syncOpr(std)"
+        >
+          <ion-icon
+            slot="icon-only"
+            color="danger"
+            name="refresh-outline"
+          ></ion-icon>
+        </ion-button>
+      </ion-item>
+      <!-- <app-common *ngIf="studentsList?.length<=0"></app-common> -->
+    </ion-list>
+
+    <!-- <app-list [dataList]="studentsList"></app-list> -->
+  </div>
+</ion-content>
+
+<ion-footer
+  class="ion-no-border ion-no-margin ion-no-padding"
+  *ngIf="actionTyVal==='fees'"
+>
+  <ion-toolbar class="background-trans">
+    <ion-button
+      color="primary"
+      class="ion-padding"
+      expand="block"
+      (click)="checking()"
+      style="color: primary"
+      >Add</ion-button
+    >
+  </ion-toolbar>
+</ion-footer>
