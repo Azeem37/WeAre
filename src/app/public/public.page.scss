@@ -1,0 +1,61 @@
+.btm-brdr {
+  border-bottom: 1px solid var(--ion-color-primary);
+  background: var(--ion-color-secondary);
+}
+
+.btm-brdr-lt {
+  border-bottom: 1px solid var(--ion-color-secondary);
+}
+.pub-st-tbl-sub-h {
+  min-width: 30% !important;
+  display: inline-block;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+.pub-st-tbl-mark-h {
+  min-width: 30% !important;
+  display: inline-block;
+  text-align: center;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+.pub-st-tbl-obt-h {
+  min-width: 30% !important;
+  display: inline-block;
+  text-align: center;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+.pub-st-tbl-sub {
+  min-width: 30% !important;
+  display: inline-block;
+}
+
+.pub-st-tbl-mark {
+  min-width: 30% !important;
+  display: inline-block;
+  text-align: center;
+}
+
+.pub-st-tbl-obt {
+  min-width: 30% !important;
+  display: inline-block;
+  text-align: center;
+}
+.custom-accordion ion-accordion {
+  margin: 0 auto;
+  width: calc(100% - 10px);
+}
+.custom-accordion ion-accordion.accordion-expanding,
+.custom-accordion ion-accordion.accordion-expanded {
+  margin: 16px auto;
+}
+
+.custom-accordion ion-accordion.accordion-expanding ion-item[slot="header"],
+.custom-accordion ion-accordion.accordion-expanded ion-item[slot="header"] {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-secondary);
+}

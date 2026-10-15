@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="tool-bar">
+    <img
+      src="assets/icon/logo.png"
+      alt=""
+      class="logo"
+      (click)="route.navigateByUrl('/dashboard')"
+    />
+    <!-- <br/> -->
+    <ion-title class="ion-text-center title-lbl">
+      WeAre
+      <p class="local-lbl">we belive in commitment</p>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-accordion-group class="ion-margin-top bg-transparent custom-accordion">
+    <ion-accordion *ngFor="let std of studentsList" [value]="std">
+      <ion-item slot="header">
+        <ion-label slot="start" class="ion-no-margin ion-no-padding"
+          >{{ std.surname }} {{ std.first_name }}
+          <p>{{ std.last_name }}</p>
+        </ion-label>
+        <span slot="end" class="ion-no-margin ion-no-padding"
+          >Class: {{ std.class }}</span
+        >
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <p *ngIf="std?.exams.length<=0">No exam attempt</p>
+
+        <ion-item
+          lines="none"
+          class="local-lbl ion-margin-top ion-no-margin ion-no-padding"
+          *ngFor="let ex of std?.exams"
+        >
+          <ion-label class="local-lbl ion-no-margin ion-no-padding"
+            >{{ex?.type}}
+
+            <p class="btm-brdr">Div. {{ex?.class}}</p>
+            <p *ngIf="ex?.subjects?.length>0" class="btm-brdr">
+              <span class="pub-st-tbl-sub-h">Subject</span>
+              <span class="pub-st-tbl-mark-h">Mark</span>
+              <span class="pub-st-tbl-obt-h">Obt. Mark</span>
+            </p>
+
+            <p *ngFor="let sub of ex?.subjects" class="btm-brdr-lt">
+              <span class="pub-st-tbl-sub">{{sub?.subject}}</span>
+              <span class="pub-st-tbl-mark">{{sub?.mark}}</span>
+              <span class="pub-st-tbl-obt">{{sub.obt_mark}}</span>
+            </p>
+            <app-common *ngIf="ex?.subjects?.length<=0"></app-common>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>

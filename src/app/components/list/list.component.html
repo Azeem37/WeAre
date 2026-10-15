@@ -1,0 +1,28 @@
+<ion-list>
+  <ion-item>
+    <ion-label>Name</ion-label>
+
+    <ion-label slot="end">present</ion-label>
+    <ion-label slot="end">absent</ion-label>
+  </ion-item>
+
+  <ion-item *ngFor="let student of dataList">
+    <ion-label>{{ student.surname }} {{ student.first_name }}</ion-label>
+    <ion-checkbox
+      (ionChange)="checkAttendance(student)"
+      slot="end"
+      color="primary"
+      mode="ios"
+      [checked]="student?.checkAttendance"
+    ></ion-checkbox>
+    <ion-checkbox
+      (ionChange)="checkAttendance(student)"
+      slot="end"
+      color="danger"
+      mode="ios"
+      [checked]="!student?.checkAttendance"
+    ></ion-checkbox>
+  </ion-item>
+</ion-list>
+
+<ion-button expand="full" (click)="saveChange()">Save Attendance</ion-button>

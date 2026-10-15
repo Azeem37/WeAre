@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>calendar</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  
+  
+  <div class="calendar-header">
+    <ion-row class="calendar-month">
+      <ion-col class="ion-text-start"(click)="goToLastMonth()"><ion-icon name="arrow-back"></ion-icon></ion-col>
+      <ion-col class="ion-text-center">{{currentMonth}} {{currentYear}}</ion-col>
+      <ion-col class="ion-text-end" (click)="goToNextMonth()"><ion-icon name="arrow-forward"></ion-icon></ion-col>
+    </ion-row>
+  </div>
+  
+  <div class="calendar-body">
+    <ion-grid>
+      <ion-row class="calendar-weekday">
+        <ion-col>Su</ion-col>
+        <ion-col>Mo</ion-col>
+        <ion-col>Tu</ion-col>
+        <ion-col>We</ion-col>
+        <ion-col>Th</ion-col>
+        <ion-col>Fr</ion-col>
+        <ion-col>Sa</ion-col>
+      </ion-row>
+      <ion-row class="calendar-date">
+        <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</ion-col>
+        <ion-col col-1 *ngFor="let day of daysInThisMonth" (click)="selectDate(day)">
+          <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+          <ng-template #otherDate class="otherDate">
+            {{day}}<br>
+            <div class="event-bullet" *ngIf="checkEvent(day)"></div>
+          </ng-template>
+        </ion-col>
+        <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month" (click)="goToNextMonth()">{{nextDay}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="selected-event" *ngIf="isSelected">
+    <ion-list>
+      <ion-item *ngFor="let se of selectedEvent">
+        <ion-buttons end>
+          <button ion-button clear icon-only (click)="deleteEvent(se)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+        <h2>{{se.title}}</h2>
+        <h3>{{se.message}}</h3>
+        <p>Start Date: {{se.startDate}}<br>
+        Start Date: {{se.endDate}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+  
+
+
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input type="text" [(ngModel)]="event.title" name="event.title"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Location</ion-label>
+        <ion-input type="text" [(ngModel)]="event.location" name="event.location"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Notes</ion-label>
+        <ion-input type="text" [(ngModel)]="event.message" name="event.message"></ion-input>
+      </ion-item>
+
+      <ion-item  id="open-start-date">
+        <ion-label floating>Start Date</ion-label>
+        <ion-text slot="end">{{event.startDate}}</ion-text>
+        <!-- <ion-datetime displayFormat="DD MMM YYYY" pickerFormat="MM/DD/YYYY" [(ngModel)]="event.startDate" name="event.startDate"></ion-datetime> -->
+      </ion-item>
+
+      <ion-modal trigger="open-start-date" class="date-modal">
+        <ng-template>
+          <ion-content class="ion-padding">
+            <ion-datetime color="primary" size="cover" id="exit-datetime" class="mb-2" #datetime presentation="date"
+            (ionChange)="onDateChanged(datetime?.value, 'start')" showDefaultButtons="true"></ion-datetime>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+      <!-- <ion-item id="open-end-date">
+        <ion-label floating>End Date</ion-label>
+        <ion-text slot="end">{{event.endDate}}</ion-text>
+        
+      </ion-item> 
+
+      <ion-modal trigger="open-end-date" class="date-modal">
+        <ng-template>
+          <ion-content class="ion-padding">
+            <ion-datetime color="primary" size="cover" id="exit-datetime" class="mb-2" #datetime presentation="date"
+            (ionChange)="onDateChanged(datetime?.value, 'end')" showDefaultButtons="true"></ion-datetime>
+          </ion-content>
+        </ng-template>
+      </ion-modal> -->
+
+      <ion-button expand="full" (click)="save()">save</ion-button>
+
+    </ion-list>
+</ion-content>

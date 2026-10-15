@@ -1,0 +1,18 @@
+.custom-input {
+    border: 2px solid #004225; /* Add a 2px blue border */
+    border-radius: 5px; /* Add rounded corners */
+    // padding: 10px; /* Add some padding for spacing */
+  }
+  
+  
+  .custom-input::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -5px;
+    // border-top: 20px solid transparent; /* Adjust the size to control the cut */
+    // border-left: 20px solid #007bff; /* Adjust the size and color to match the background */
+    background-color: #fff;
+    width: 50px;
+    height: 5px;
+  }
